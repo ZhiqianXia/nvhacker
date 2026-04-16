@@ -16,6 +16,38 @@ nvhacker 是一个面向 NVIDIA 指令实验的可视化工具：可以在 ELF/c
 - 支持研究与教学：可视化展示指令编码和行为变化，适合做架构探索、逆向分析和内部培训。
 - 可扩展：核心逻辑与 TUI 分层，后续可继续扩展新架构、新字段解码和批量 sweep 实验。
 
+## CUDA 工具依赖
+
+运行本项目时，核心依赖不是 CUDA Runtime，而是 CUDA Toolkit 里的反汇编与编译工具。
+
+- 必需：nvdisasm
+	- 用途：反汇编指令、bit 翻转后对照变化。
+	- 常见路径：/usr/local/cuda/bin/nvdisasm 或加入 PATH。
+- 必需：readelf
+	- 用途：解析 ELF section 信息并定位指令偏移。
+	- 常见来源：binutils 包。
+- 可选：nvcc
+	- 用途：从 .cu 编译生成测试用 cubin。
+	- 如果你只分析已有 cubin，可以不装。
+
+推荐环境：
+
+- CUDA Toolkit 13.x（项目当前验证环境为 13.2）
+- Linux + Python 3.10+
+
+快速自检：
+
+```bash
+nvdisasm --version
+readelf --version
+nvcc --version
+```
+
+说明：
+
+- 无 GPU 驱动也可以做离线分析和 ELF patch。
+- 只有在你要实际运行 kernel 做性能/行为验证时，才需要可用的 NVIDIA 驱动与设备。
+
 ## 界面预览
 
 
